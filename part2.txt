@@ -1,0 +1,52 @@
+Run Django shell or shell_plus.
+        python manage.py shell
+
+
+2. Create the following objects:
+
+First i import everything from model 
+from Test.models import Building, RoomType, Room, BlockedDay
+
+a. 1 Building
+building = Building.objects.create(name='My Building')
+
+b. 1 Room Type
+        room_type = RoomType.objects.create(name='Single Room', type='Single', building=building)
+
+
+c. 1 Room
+room = Room.objects.create(number=101, room_type=room_type, price=100.00)
+
+
+
+d. 20 Blocked Days
+import datetime
+from random import randint
+
+i. 01 Dec 2022 - 10 Dec 
+        start1 = datetime.date(2022, 12, 1)
+        end1 = datetime.date(2022, 12, 10)
+
+        for day in [start1 + datetime.timedelta(days=i) for i in range((end1-start1).days + 1)]:
+            BlockedDay.objects.create(day=day, room=room)
+
+ii. 20 Dec 2022 - 30 Dec 
+
+        start2 = datetime.date(2022, 12, 20)
+        end2 = datetime.date(2022, 12, 30)
+
+        for day in [start2 + datetime.timedelta(days=i) for i in range((end2-start2).days + 1)]:
+            BlockedDay.objects.create(day=day, room=room)
+
+
+
+e. Block random days for any future 
+today = datetime.date.today()
+
+for i in range(10):
+    day = today + datetime.timedelta(days=randint(1, 30))
+    BlockedDay.objects.create(day=day, room=room)
+
+3. Exit shell / shell_plus
+
+    exit()
